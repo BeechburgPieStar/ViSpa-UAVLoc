@@ -7,10 +7,6 @@
 
 This repository contains the official PyTorch implementation of **ViSpa**, a Visual-Spatial Interactive Fusion framework for 3D UAV localization in millimeter-wave (mmWave) communication systems.
 
-<p align="center">
-  <img src="framework.png" alt="ViSpa Framework" width="800"/>
-</p>
-
 ## 📋 Overview
 
 High-precision low-cost Uncrewed Aerial Vehicle (UAV) localization is critical for emerging mmWave communication systems. **ViSpa** addresses the fundamental "Cone of Confusion" ambiguity inherent in ULA-based mmWave localization by jointly exploiting:
