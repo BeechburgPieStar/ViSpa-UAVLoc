@@ -1,10 +1,5 @@
 # ViSpa: Visual-Spatial Interactive Fusion for 3D UAV Localization in mmWave Communications
 
-[![Paper](https://img.shields.io/badge/Paper-IEEE%20Communications%20Letters-blue)](https://ieeexplore.ieee.org/)
-[![Python](https://img.shields.io/badge/Python-3.10%2B-green)](https://www.python.org/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-orange)](https://pytorch.org/)
-[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
-
 This repository contains the official PyTorch implementation of **ViSpa**, a Visual-Spatial Interactive Fusion framework for 3D UAV localization in millimeter-wave (mmWave) communication systems.
 
 ## 📋 Overview
