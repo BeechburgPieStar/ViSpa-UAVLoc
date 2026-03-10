@@ -263,8 +263,6 @@ class MultimodalDataset(Dataset):
         img_path = self.image_paths[idx]
         try:
             image = Image.open(img_path).convert('RGB')
-            # 如果你担心数据集中存在尺寸不一致，可强制统一到 960x540
-            # image = image.resize((IMG_W, IMG_H))
             if self.transform:
                 image = self.transform(image)
         except Exception:
@@ -281,7 +279,6 @@ def retain_topk_per_row(X, k):
     X_out = np.zeros_like(X)
     abs_X = np.abs(X)
 
-    # 每一行找 Top-k 的索引（无序）
     topk_idx = np.argpartition(abs_X, -k, axis=1)[:, -k:]
 
     row_idx = np.arange(X.shape[0])[:, None]
@@ -296,10 +293,8 @@ def prepare_data(img_folder, csv_input, csv_output, k=8):
     df_in = pd.read_csv(csv_input, header=0)
     X_signal_raw = df_in.iloc[:, 1:65].values.astype(np.float32)
 
-    # ========= 新增：逐行 Top-k 保留 =========
     X_signal_raw = retain_topk_per_row(X_signal_raw, k)
-    # =======================================
-
+    
     df_out = pd.read_csv(csv_output, header=None)
     y_raw = df_out.values.astype(np.float32)
 
@@ -360,7 +355,7 @@ def prepare_data(img_folder, csv_input, csv_output, k=8):
 @torch.no_grad()
 def compute_train_mean_std(train_image_paths, batch_size=8, num_workers=0):
     tfm = transforms.Compose([
-        transforms.ToTensor(),  # -> float32 in [0,1], shape (3,H,W)
+        transforms.ToTensor(),  
     ])
 
     class ImgOnlyDataset(Dataset):
@@ -375,7 +370,7 @@ def compute_train_mean_std(train_image_paths, batch_size=8, num_workers=0):
             p = self.paths[idx]
             try:
                 img = Image.open(p).convert("RGB")
-                # 如需强制尺寸一致，可打开下一行
+                
                 img = img.resize((IMG_W, IMG_H))
                 img = self.transform(img)
             except Exception:
@@ -598,7 +593,6 @@ def train_main():
     errs_sorted = np.sort(errs)
     cdf = np.arange(1, len(errs_sorted) + 1) / len(errs_sorted)
     
-    # 可选：标注关键分位数（更“paper-friendly”）
     p50 = float(np.percentile(errs, 50))
     p80 = float(np.percentile(errs, 80))
     p90 = float(np.percentile(errs, 90))
@@ -641,6 +635,50 @@ def train_main():
     savemat(mat_file, plot_data)
 
     print(f"绘图数据已保存至: {mat_file}")
+#    # ============================
+#    # 7. 绘图 (Loss + 3D Trajectory)
+#    # ============================
+#    plt.figure(figsize=(10, 5))
+#    plt.plot(train_losses, label="Train Loss")
+#    plt.plot(val_losses, label="Val Loss")
+#    plt.title("Multimodal Training Loss")
+#    plt.xlabel("Epoch")
+#    plt.ylabel("Loss")
+#    plt.legend()
+#    plt.grid(True)
+#    plt.savefig("multimodal_loss.png")
+#    print("Loss曲线已保存至: multimodal_loss.png")
+#
+#    fig = plt.figure(figsize=(10, 8))
+#    ax = fig.add_subplot(111, projection='3d')
+#    num_points = min(200, len(target_real))
+#
+#    ax.scatter(
+#        target_real[:num_points, 0], target_real[:num_points, 1], target_real[:num_points, 2],
+#        c='b', marker='o', label='True Position', alpha=0.6
+#    )
+#    ax.scatter(
+#        pred_real[:num_points, 0], pred_real[:num_points, 1], pred_real[:num_points, 2],
+#        c='r', marker='^', label='Predicted', alpha=0.6
+#    )
+#
+#    for i in range(num_points):
+#        ax.plot(
+#            [target_real[i, 0], pred_real[i, 0]],
+#            [target_real[i, 1], pred_real[i, 1]],
+#            [target_real[i, 2], pred_real[i, 2]],
+#            'gray', linestyle='--', linewidth=0.5
+#        )
+#
+#    ax.set_xlabel('X Axis')
+#    ax.set_ylabel('Y Axis')
+#    ax.set_zlabel('Z Axis')
+#    ax.set_title(f'UAV Positioning Result (Top {num_points} samples)')
+#    ax.legend()
+#    plt.savefig("uav_trajectory_3d.png")
+#    print("3D轨迹图已保存至: uav_trajectory_3d.png")
+
+
 
 if __name__ == "__main__":
     train_main()
