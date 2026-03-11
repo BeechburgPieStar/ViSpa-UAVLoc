@@ -58,29 +58,6 @@ High-precision low-cost Uncrewed Aerial Vehicle (UAV) localization is critical f
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-## 📊 Results
-
-### Localization Performance
-
-| Setting | Mean MPE (m) | Mean MAE (m) | XY-axis MAE (m) | Z-axis MAE (m) |
-|---------|--------------|--------------|-----------------|----------------|
-| **ViSpa (Proposed)** | **7.32** | **3.10** | **1.58** | **6.14** |
-| w/o BiFiLM | 8.23 | 3.44 | 1.59 | 7.16 |
-| w/o LBF | 7.84 | 3.30 | 1.63 | 6.64 |
-| Attention-based [2] | 8.27 | 3.49 | 1.68 | 7.10 |
-| w/o Visual | 26.05 | 10.42 | 3.23 | 24.81 |
-| w/o Beam | 17.77 | 8.00 | 6.61 | 10.77 |
-
-### Top-k Beam Analysis
-
-| Top-k | X-axis MAE (m) | Y-axis MAE (m) | Z-axis MAE (m) |
-|-------|----------------|----------------|----------------|
-| Top-1 | ~1.5 | ~1.5 | ~8.0 |
-| Top-8 | ~1.3 | ~1.3 | ~7.0 |
-| Top-16 | ~1.2 | ~1.2 | ~6.0 |
-| Top-32 | ~1.2 | ~1.2 | ~6.0 |
-| Top-64 | ~1.2 | ~1.2 | ~6.0 |
-
 ## 🚀 Getting Started
 
 ### Prerequisites
