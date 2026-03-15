@@ -182,4 +182,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🙏 Acknowledgments
 
 - DeepSense 6G team for providing the real-world multimodal dataset
-- This work was supported by [funding information if applicable]
